@@ -15,6 +15,10 @@ app.get("/api", (req, res) => {
 })
 app.use("/api/search", SearchRoute)
 
+setInterval(function () {
+    http.get("http://catchy-api.herokuapp.com");
+}, 300000); // every 5 minutes (300000)
+
 app.listen(process.env.PORT || 5000, process.env.YOUR_HOST || '0.0.0.0', () => {
     console.log('Nana API run at port ' + process.env.PORT || 5000)
 })

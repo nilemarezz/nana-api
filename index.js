@@ -10,10 +10,13 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+const ManageRoute = require('./routes/manage')
+
 app.get("/api", (req, res) => {
     res.json({ success: true, user: 'test' })
 })
 app.use("/api/search", SearchRoute)
+app.use("/api/manage", ManageRoute)
 
 setInterval(function () {
     http.get("http://catchy-api.herokuapp.com");

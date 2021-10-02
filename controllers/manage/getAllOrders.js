@@ -24,13 +24,13 @@ exports.getAllOrders = async (req, res, next) => {
           "product_status": rows[i]['กดสั่งซื้อ'] || null,
           "payment_status": rows[i]['เต็มจำนวน/มัดจำ'] || null,
           "timestamp": rows[i]["Timestamp"],
-          "timestamp_parse": Date.parse(rows[i]["Timestamp"])
+          "timestamp_parse": Date.parse(rows[i]["Timestamp"]),
+          "release_date": rows[i]["เว็บจัดส่งภายในวันที่"] || null,
           // "image_link": rows[i]['image_link'] || null,
           // "total2": rows[i]['ยอดมัดจำที่เหลือ'] || null,
         })
       }
     }
-    console.log(data.length)
     const sortedData = data.sort((a, b) => (b.timestamp_parse > a.timestamp_parse) ? 1 : -1)
     res.status(200).json({ success: true, data: sortedData });
   } catch (err) {

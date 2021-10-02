@@ -7,7 +7,7 @@ const { getStat } = require('../controllers/manage/getStat')
 const verifyToken = require('../middlewares/verify')
 router
   .route("/")
-  .get(getAllOrders)
+  .get(verifyToken, getAllOrders)
 router
   .route("/statistic/:date")
   .get(verifyToken, getStat)

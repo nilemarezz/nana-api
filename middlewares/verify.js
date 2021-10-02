@@ -6,7 +6,7 @@ const verifyToken = async (req, res, next) => {
     if (!hashPassword) {
       res.status(401).json({ success: false, code: 1001 });
     } else {
-      const password = process.env.CATCHY_PASSWORD
+      const password = process.env.NANA_PASSWORD
       const result = await bcrypt.compare(password, hashPassword);
       if (result) {
         next();

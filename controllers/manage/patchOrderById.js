@@ -4,6 +4,8 @@ const { GoogleSpreadsheet } = require('google-spreadsheet');
 const { client_email, private_key } = require('../../config/cred')
 const moment = require('moment-timezone')
 exports.patchOrderById = async (req, res, next) => {
+    console.log("patch", req.params.id)
+    console.log(req.body)
     //     try {
     //         const date = req.query.date
     //         const shop = "catchy_kr"
@@ -65,4 +67,5 @@ exports.patchOrderById = async (req, res, next) => {
     //     } catch (err) {
     //         console.log(err)
     //     }
+    res.status(200).json({ success: true, method: 'patch orders ' + req.params.id });
 }

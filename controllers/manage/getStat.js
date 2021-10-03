@@ -80,21 +80,24 @@ exports.getStat = async (req, res, next) => {
 
 const getAllData = (rows, headerSummary, shippingMethodStat, paymentMethodStat, countAccount, countProduct, payMonth, total2Month) => {
     for (let i = 0; i < rows.length; i++) {
-        // top summary
-        headerSummary.total2 += parseFloat(rows[i]['คงเหลือ'] || 0) || 0;
-        headerSummary.product_pay += parseFloat(rows[i]['รวมราคา'] || 0) || 0;
-        // shippingMethodStat
-        shippingMethodStat[getShippingMethodIndex(rows[i]['ขนส่ง'] || "no data")].count += 1
+        console.log(rows[i]['Timestamp'][1200])
+        if (rows[i]['Timestamp']) {
+            // top summary
+            headerSummary.total2 += parseFloat(rows[i]['คงเหลือ'] || 0) || 0;
+            headerSummary.product_pay += parseFloat(rows[i]['รวมราคา'] || 0) || 0;
+            headerSummary.count += 1
+            // shippingMethodStat
+            shippingMethodStat[getShippingMethodIndex(rows[i]['ขนส่ง'] || "no data")].count += 1
 
-        paymentMethodStat[getPaymentMethodIndex(rows[i]['เต็มจำนวน/มัดจำ'] || "no data")].count += 1
-        countAccount[rows[i]['@Twitter']] = (countAccount[rows[i]['@Twitter']] || 0) + (parseFloat(rows[i]['รวมราคา'] || 0))
-        countProduct[rows[i]['รายการสั่งซื้อ']] = (countProduct[rows[i]['รายการสั่งซื้อ']] || 0) + 1
-        payMonth[moment(rows[i]["Timestamp"], "M/D/YYYY").date()] = (payMonth[moment(rows[i]["Timestamp"], "M/D/YYYY").date()] || 0) + (parseFloat(rows[i]['รวมราคา'] || 0))
-        // payMonth[rows[i]['order_id'].substring(1, 3)] = (payMonth[rows[i]['order_id'].substring(1, 3)] || 0) + (parseFloat(rows[i]['ยอดที่โอน'] || 0))
-        // total2Month[rows[i]['order_id'].substring(1, 3)] = (total2Month[rows[i]['order_id'].substring(1, 3)] || 0) + (parseFloat(rows[i]['ยอดมัดจำที่เหลือ'] || 0))
-        total2Month[moment(rows[i]["Timestamp"], "M/D/YYYY").date()] = (payMonth[moment(rows[i]["Timestamp"], "M/D/YYYY").date()] || 0) + (parseFloat(rows[i]['คงเหลือ'] || 0))
+            paymentMethodStat[getPaymentMethodIndex(rows[i]['เต็มจำนวน/มัดจำ'] || "no data")].count += 1
+            countAccount[rows[i]['@Twitter']] = (countAccount[rows[i]['@Twitter']] || 0) + (parseFloat(rows[i]['รวมราคา'] || 0))
+            countProduct[rows[i]['รายการสั่งซื้อ']] = (countProduct[rows[i]['รายการสั่งซื้อ']] || 0) + 1
+            payMonth[moment(rows[i]["Timestamp"], "M/D/YYYY").date()] = (payMonth[moment(rows[i]["Timestamp"], "M/D/YYYY").date()] || 0) + (parseFloat(rows[i]['รวมราคา'] || 0))
+            // payMonth[rows[i]['order_id'].substring(1, 3)] = (payMonth[rows[i]['order_id'].substring(1, 3)] || 0) + (parseFloat(rows[i]['ยอดที่โอน'] || 0))
+            // total2Month[rows[i]['order_id'].substring(1, 3)] = (total2Month[rows[i]['order_id'].substring(1, 3)] || 0) + (parseFloat(rows[i]['ยอดมัดจำที่เหลือ'] || 0))
+            total2Month[moment(rows[i]["Timestamp"], "M/D/YYYY").date()] = (payMonth[moment(rows[i]["Timestamp"], "M/D/YYYY").date()] || 0) + (parseFloat(rows[i]['คงเหลือ'] || 0))
+        }
     }
-    headerSummary.count = rows.length
     const countTopAccount = getTopAccount(countAccount)
     const countTopProduct = getTopProduct(countProduct)
     const monthPay = formatMonthData(payMonth)
@@ -105,17 +108,19 @@ const getAllData = (rows, headerSummary, shippingMethodStat, paymentMethodStat, 
 const getDataByMonth = (rows, headerSummary, shippingMethodStat, paymentMethodStat, countAccount, countProduct, payMonth, total2Month, date) => {
     const month = moment(date, "M_YYYY").month() + 1;
     for (let i = 0; i < rows.length; i++) {
-        if (month === moment(rows[i]["Timestamp"], "M/D/YYYY").month() + 1) {
-            headerSummary.total2 += parseFloat(rows[i]['คงเหลือ'] || 0) || 0;
-            headerSummary.product_pay += parseFloat(rows[i]['รวมราคา'] || 0) || 0;
-            headerSummary.count += 1
+        if (rows[i]['Timestamp']) {
+            if (month === moment(rows[i]["Timestamp"], "M/D/YYYY").month() + 1) {
+                headerSummary.total2 += parseFloat(rows[i]['คงเหลือ'] || 0) || 0;
+                headerSummary.product_pay += parseFloat(rows[i]['รวมราคา'] || 0) || 0;
+                headerSummary.count += 1
 
-            shippingMethodStat[getShippingMethodIndex(rows[i]['ขนส่ง'] || "no data")].count += 1
-            paymentMethodStat[getPaymentMethodIndex(rows[i]['เต็มจำนวน/มัดจำ' || "no data"])].count += 1
-            countAccount[rows[i]['@Twitter']] = (countAccount[rows[i]['@Twitter']] || 0) + (parseFloat(rows[i]['รวมราคา'] || 0))
-            countProduct[rows[i]['รายการสั่งซื้อ']] = (countProduct[rows[i]['รายการสั่งซื้อ']] || 0) + 1
-            payMonth[moment(rows[i]["Timestamp"], "M/D/YYYY").date()] = (payMonth[moment(rows[i]["Timestamp"], "M/D/YYYY").date()] || 0) + (parseFloat(rows[i]['รวมราคา'] || 0))
-            total2Month[moment(rows[i]["Timestamp"], "M/D/YYYY").date()] = (payMonth[moment(rows[i]["Timestamp"], "M/D/YYYY").date()] || 0) + (parseFloat(rows[i]['คงเหลือ'] || 0))
+                shippingMethodStat[getShippingMethodIndex(rows[i]['ขนส่ง'] || "no data")].count += 1
+                paymentMethodStat[getPaymentMethodIndex(rows[i]['เต็มจำนวน/มัดจำ' || "no data"])].count += 1
+                countAccount[rows[i]['@Twitter']] = (countAccount[rows[i]['@Twitter']] || 0) + (parseFloat(rows[i]['รวมราคา'] || 0))
+                countProduct[rows[i]['รายการสั่งซื้อ']] = (countProduct[rows[i]['รายการสั่งซื้อ']] || 0) + 1
+                payMonth[moment(rows[i]["Timestamp"], "M/D/YYYY").date()] = (payMonth[moment(rows[i]["Timestamp"], "M/D/YYYY").date()] || 0) + (parseFloat(rows[i]['รวมราคา'] || 0))
+                total2Month[moment(rows[i]["Timestamp"], "M/D/YYYY").date()] = (payMonth[moment(rows[i]["Timestamp"], "M/D/YYYY").date()] || 0) + (parseFloat(rows[i]['คงเหลือ'] || 0))
+            }
         }
     }
     const countTopAccount = getTopAccount(countAccount)

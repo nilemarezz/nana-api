@@ -80,7 +80,6 @@ exports.getStat = async (req, res, next) => {
 
 const getAllData = (rows, headerSummary, shippingMethodStat, paymentMethodStat, countAccount, countProduct, payMonth, total2Month) => {
     for (let i = 0; i < rows.length; i++) {
-        console.log(rows[i]['Timestamp'][1200])
         if (rows[i]['Timestamp']) {
             // top summary
             headerSummary.total2 += parseFloat(rows[i]['คงเหลือ'] || 0) || 0;
@@ -95,7 +94,7 @@ const getAllData = (rows, headerSummary, shippingMethodStat, paymentMethodStat, 
             payMonth[moment(rows[i]["Timestamp"], "M/D/YYYY").date()] = (payMonth[moment(rows[i]["Timestamp"], "M/D/YYYY").date()] || 0) + (parseFloat(rows[i]['รวมราคา'] || 0))
             // payMonth[rows[i]['order_id'].substring(1, 3)] = (payMonth[rows[i]['order_id'].substring(1, 3)] || 0) + (parseFloat(rows[i]['ยอดที่โอน'] || 0))
             // total2Month[rows[i]['order_id'].substring(1, 3)] = (total2Month[rows[i]['order_id'].substring(1, 3)] || 0) + (parseFloat(rows[i]['ยอดมัดจำที่เหลือ'] || 0))
-            total2Month[moment(rows[i]["Timestamp"], "M/D/YYYY").date()] = (payMonth[moment(rows[i]["Timestamp"], "M/D/YYYY").date()] || 0) + (parseFloat(rows[i]['คงเหลือ'] || 0))
+            total2Month[moment(rows[i]["Timestamp"], "M/D/YYYY").date()] = (total2Month[moment(rows[i]["Timestamp"], "M/D/YYYY").date()] || 0) + (parseFloat(rows[i]['คงเหลือ'] || 0))
         }
     }
     const countTopAccount = getTopAccount(countAccount)
@@ -119,7 +118,7 @@ const getDataByMonth = (rows, headerSummary, shippingMethodStat, paymentMethodSt
                 countAccount[rows[i]['@Twitter']] = (countAccount[rows[i]['@Twitter']] || 0) + (parseFloat(rows[i]['รวมราคา'] || 0))
                 countProduct[rows[i]['รายการสั่งซื้อ']] = (countProduct[rows[i]['รายการสั่งซื้อ']] || 0) + 1
                 payMonth[moment(rows[i]["Timestamp"], "M/D/YYYY").date()] = (payMonth[moment(rows[i]["Timestamp"], "M/D/YYYY").date()] || 0) + (parseFloat(rows[i]['รวมราคา'] || 0))
-                total2Month[moment(rows[i]["Timestamp"], "M/D/YYYY").date()] = (payMonth[moment(rows[i]["Timestamp"], "M/D/YYYY").date()] || 0) + (parseFloat(rows[i]['คงเหลือ'] || 0))
+                total2Month[moment(rows[i]["Timestamp"], "M/D/YYYY").date()] = (total2Month[moment(rows[i]["Timestamp"], "M/D/YYYY").date()] || 0) + (parseFloat(rows[i]['คงเหลือ'] || 0))
             }
         }
     }

@@ -3,7 +3,6 @@ const express = require('express')
 const app = express()
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const SearchRoute = require('./routes/search')
 
 var http = require("http");
 app.use(cors());
@@ -11,12 +10,15 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 const ManageRoute = require('./routes/manage')
+const SearchRoute = require('./routes/search')
+const FormAdminRoute = require('./routes/form-admin')
 
 app.get("/api", (req, res) => {
     res.json({ success: true, user: 'test' })
 })
 app.use("/api/search", SearchRoute)
 app.use("/api/manage", ManageRoute)
+app.use("/api/form-admin", FormAdminRoute)
 
 setInterval(function () {
     http.get("http://catchy-api.herokuapp.com");

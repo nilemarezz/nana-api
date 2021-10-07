@@ -48,6 +48,7 @@ const getDataPromise = async (rows, account) => {
         "Timestamp": rows[i]['Timestamp'] || null,
         "release_date_format": `${monthNames[new Date(rows[i]["เว็บจัดส่งภายในวันที่"]).getMonth()]} ${new Date(rows[i]["เว็บจัดส่งภายในวันที่"]).getFullYear()}`,
         "release_date_compare": Date.parse(rows[i]["เว็บจัดส่งภายในวันที่"]),
+        "tracking_no": rows[i]['เลข Tracking'] || null,
         // "date": date,
         "success": true,
       })
@@ -60,8 +61,6 @@ const getDataPromise = async (rows, account) => {
 
 const groupDate = (rows) => {
   let group = rows.reduce((r, a) => {
-    console.log("a", a);
-    console.log('r', r);
     r[a.release_date_format] = [...r[a.release_date_format] || [], a];
     return r;
   }, {});

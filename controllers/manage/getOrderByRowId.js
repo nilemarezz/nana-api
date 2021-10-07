@@ -30,6 +30,7 @@ exports.getOrderById = async (req, res, next) => {
       "product_status": rows[index]["กดสั่งซื้อ"] || null,
       "address": rows[index]['ชื่อ-ที่อยู่-เบอร์โทร'] || null,
       "caution": rows[index]['หมายเหตุ'] || null,
+      "tracking_no": rows[index]['เลข Tracking'] || null,
     }
 
     await res.status(200).json({ success: true, data: data });

@@ -29,6 +29,7 @@ exports.patchOrderById = async (req, res, next) => {
         rows[id]['กดสั่งซื้อ'] = data.product_status
         rows[id]['ชื่อ-ที่อยู่-เบอร์โทร'] = data.address,
             rows[id]['หมายเหตุ'] = data.caution || ''
+        rows[id]['เลข Tracking'] = data.tracking_no || ''
         await rows[id].save();
         // await patchOrderById(date, shop, data, id)
         res.status(200).json({ success: true, method: 'patch orders ' + req.params.id });

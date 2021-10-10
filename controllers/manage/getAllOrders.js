@@ -27,7 +27,7 @@ exports.getAllOrders = async (req, res, next) => {
           "timestamp_parse": Date.parse(rows[i]["Timestamp"]),
           "release_date": rows[i]["เว็บจัดส่งภายในวันที่"] || null,
           // "image_link": rows[i]['image_link'] || null,
-          // "total2": rows[i]['ยอดมัดจำที่เหลือ'] || null,
+          "total2": rows[i]['คงเหลือ'] || null,
         })
       }
     }

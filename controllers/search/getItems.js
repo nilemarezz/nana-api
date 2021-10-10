@@ -31,7 +31,8 @@ exports.getItems = async (req, res) => {
 const getDataPromise = async (rows, account) => {
   const data = [];
   for (let i = 0; i < rows.length; i++) {
-    if (rows[i]["@Twitter"] === account) {
+    // console.log(rows[i]["@Twitter"].toLowerCase())
+    if (rows[i]["@Twitter"].toLowerCase() === account.toLowerCase()) {
 
       data.push({
         "id": i,

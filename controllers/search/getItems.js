@@ -43,7 +43,7 @@ const getDataPromise = async (rows, account) => {
   const data = [];
   for (let i = 0; i < rows.length; i++) {
     // console.log(rows[i]["@Twitter"].toLowerCase())
-    if (rows[i]["@Twitter"].toLowerCase() === account.toLowerCase()) {
+    if (rows[i]["@Twitter"].replace(/\s+/g, '').toLowerCase() === account.replace(/\s+/g, '').toLowerCase()) {
 
       data.push({
         "id": i,

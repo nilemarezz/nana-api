@@ -6,26 +6,37 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
 ];
 exports.getItems = async (req, res) => {
-  const twitter = req.params.twitter
-  const tel = req.params.tel
-  const doc = new GoogleSpreadsheet(process.env.NANA_SHEET);
-  await doc.useServiceAccountAuth({
-    client_email: client_email,
-    private_key: private_key.replace(new RegExp("\\\\n", "\g"), "\n"),
-  });
-  await doc.loadInfo();
-  const sheet = doc.sheetsByTitle["รวมทั้งหมด"];
-  const rows = await sheet.getRows();
-  const data = await getDataPromise(rows, twitter)
-  const sortedData = data.sort((a, b) => (b.release_date_compare > a.release_date_compare) ? 1 : -1)
-  const groupedData = await groupDate(sortedData)
-  const resData = []
-  Object.keys(groupedData).map((key) => {
-    // let item = {key : null , value : null}
-    // item[key] = [...groupedData[key]];
-    resData.push({ key: key, value: [...groupedData[key]] })
-  });
-  res.json({ success: true, data: resData });
+  try {
+    const twitter = req.params.twitter
+    const tel = req.params.tel
+    const doc = new GoogleSpreadsheet(process.env.NANA_SHEET);
+    await doc.useServiceAccountAuth({
+      client_email: client_email,
+      private_key: private_key.replace(new RegExp("\\\\n", "\g"), "\n"),
+    });
+    await doc.loadInfo();
+    const sheet = doc.sheetsByTitle["รวมทั้งหมด"];
+    const rows = await sheet.getRows();
+    const data = await getDataPromise(rows, twitter)
+    if (data.length === 0) {
+      console.log("data not found - " + twitter)
+      res.json({ success: true, data: [] });
+    } else {
+      console.log(`data found - ${data.length} items , ${twitter}`)
+      const sortedData = data.sort((a, b) => (b.release_date_compare > a.release_date_compare) ? 1 : -1)
+      const groupedData = await groupDate(sortedData)
+      const resData = []
+      Object.keys(groupedData).map((key) => {
+        // let item = {key : null , value : null}
+        // item[key] = [...groupedData[key]];
+        resData.push({ key: key, value: [...groupedData[key]] })
+      });
+      res.json({ success: true, data: resData });
+    }
+  } catch (err) {
+    console.log(err)
+    res.json({ success: false, code: "BE-eer" });
+  }
 }
 
 const getDataPromise = async (rows, account) => {

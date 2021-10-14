@@ -31,6 +31,7 @@ exports.getItems = async (req, res) => {
         // item[key] = [...groupedData[key]];
         resData.push({ key: key, value: [...groupedData[key]] })
       });
+      console.log("Success")
       res.json({ success: true, data: resData });
     }
   } catch (err) {

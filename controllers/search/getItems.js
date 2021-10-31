@@ -42,8 +42,9 @@ exports.getItems = async (req, res) => {
 
 const getDataPromise = async (rows, account) => {
   const data = [];
+  // console.log(account.replace(/\s+/g, '').toLowerCase())
   for (let i = 0; i < rows.length; i++) {
-    // console.log(rows[i]["@Twitter"].toLowerCase())
+    console.log(rows[i]["@Twitter"])
     if (rows[i]["@Twitter"].replace(/\s+/g, '').toLowerCase() === account.replace(/\s+/g, '').toLowerCase()) {
 
       data.push({

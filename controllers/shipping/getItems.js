@@ -46,6 +46,7 @@ const getRowByAccountId = (rows, accountId) => {
         product_status: data["สถานะสินค้า"] || "",
         product_weight: data["น้ำหนักสินค้า"] || "",
         tracking_th: data["Tracking no. ในไทย"] || "",
+        tracking_th_by: data["ส่งด้วย"] || "",
         moment_ship_round:
           data["รอบเรือ"] === undefined
             ? ""

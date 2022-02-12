@@ -19,7 +19,7 @@ exports.getItems = async (req, res) => {
     const rows = await sheet.getRows();
     const data = getRowByAccountId(rows, accountId);
 
-    res.status(200).send({ success: true, ...data });
+    res.status(200).send({ success: true, data: { ...data } });
   } catch (err) {
     res.status(200).send({ success: false });
   }

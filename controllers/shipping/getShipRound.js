@@ -16,7 +16,7 @@ exports.getShipRound = async (req, res) => {
   const sheet = doc.sheetsByTitle[shipping_sheet_name_shipping_round];
   const rows = await sheet.getRows();
   const data = getShipRoundfromRows(rows);
-  res.status(200).send(data);
+  res.status(200).send({ success: true, data: data });
 };
 
 const getShipRoundfromRows = (rows) => {
@@ -30,7 +30,5 @@ const getShipRoundfromRows = (rows) => {
   for (let i = 0; i < ship_rounds.length; i++) {
     ship_rounds[i] = ship_rounds[i].format("DD/MM/YYYY");
   }
-  return {
-    ship_rounds: ship_rounds.slice(Math.max(ship_rounds.length - 20, 0)),
-  };
+  return ship_rounds.slice(Math.max(ship_rounds.length - 20, 0));
 };

@@ -21,6 +21,7 @@ exports.getItems = async (req, res) => {
 
     res.status(200).send({ success: true, data: { ...data } });
   } catch (err) {
+    console.log(err);
     res.status(200).send({ success: false });
   }
 };

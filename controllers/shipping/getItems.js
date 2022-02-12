@@ -43,8 +43,8 @@ const getRowByAccountId = (rows, accountId) => {
         price: data["ราคา(JPY)"],
         image: data["รูปภาพสินค้า (ถ้ามี)"] || "",
         ship_round: data["รอบเรือ"] || "",
-        product_status: data["น้ำหนักสินค้า"] || "",
-        product_weight: data["สถานะสินค้า"] || "",
+        product_status: data["สถานะสินค้า"] || "",
+        product_weight: data["น้ำหนักสินค้า"] || "",
         tracking_th: data["Tracking no. ในไทย"] || "",
         moment_ship_round:
           data["รอบเรือ"] === undefined

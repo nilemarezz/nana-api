@@ -6,7 +6,7 @@ exports.createOrder = async (req, res, next) => {
     const rowData = []
     body.product.map((item, i) => {
         rowData.push({
-            "Timestamp": moment().format('M/D/YYYY HH:MM:SS'),
+            "Timestamp": moment().tz("Asia/Bangkok").format('M/D/YYYY HH:MM:SS'),
             "@Twitter": body.account,
             "รายการสั่งซื้อ": item.product_name,
             "รวมจำนวนกี่ชิ้น/เซ็ต": item.product_amount,

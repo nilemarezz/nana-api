@@ -5,6 +5,7 @@ exports.createOrder = async (req, res, next) => {
     const body = req.body
     const rowData = []
     body.product.map((item, i) => {
+        console.log(item)
         rowData.push({
             "Timestamp": moment().tz("Asia/Bangkok").format('M/D/YYYY HH:MM:SS'),
             "@Twitter": body.account,
